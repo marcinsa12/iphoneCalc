@@ -1,6 +1,6 @@
 <template>
   <div class="calc">
-    <div class="screen"> {{currentState || '0'}}</div>
+    <div class="screen"> {{currentState || '0'}} </div>
     <calcButton @click.native="clear" class="specialChar1" v-bind:button="'AC'"/>
     <calcButton @click.native="positiveNegative" class="specialChar1" v-bind:button="'+/-'"/>
     <calcButton @click.native="currentState /= 100"class="specialChar1" v-bind:button="'%'"/>
@@ -38,21 +38,29 @@ export default {
       currentOperator: null,
       oldState: null,
       operators: {
-        "+" : (a,b)=>{return a+b},
-        "-" : (a,b)=>{return a-b},
-        "*" : (a,b)=>{return a*b},
-        "/" : (a,b)=>{return a/b},
+        "+": (a, b) => {
+          return a + b;
+        },
+        "-": (a, b) => {
+          return a - b;
+        },
+        "*": (a, b) => {
+          return a * b;
+        },
+        "/": (a, b) => {
+          return a / b;
+        }
       }
     };
   },
   methods: {
-    toNumber: function(){
+    toNumber: function() {
       this.oldState = parseFloat(this.oldState);
-      this.currentState = parseFloat(this.currentState)
+      this.currentState = parseFloat(this.currentState);
     },
     addSymbol: function(symbol) {
-      if(symbol == 0) {
-        this.currentState ? this.currentState += symbol : this.currentState;
+      if (symbol == 0) {
+        this.currentState ? (this.currentState += symbol) : this.currentState;
       } else {
         this.currentState += symbol;
       }
@@ -61,29 +69,56 @@ export default {
       this.currentState = "";
     },
     addDot: function() {
-      this.currentState == '' ? this.currentState = '0' : this.currentState;
-      this.currentState.indexOf(".") === -1 ? this.addSymbol(".") : this.currentState;
-
+      this.currentState == "" ? (this.currentState = "0") : this.currentState;
+      this.currentState.indexOf(".") === -1
+        ? this.addSymbol(".")
+        : this.currentState;
     },
     positiveNegative: function() {
-      this.currentState.indexOf("-") === -1 && this.currentState !== '' ? this.currentState = '-'.concat(this.currentState) : this.currentState = this.currentState.substr(1);
+      this.currentState.indexOf("-") === -1 && this.currentState !== ""
+        ? (this.currentState = "-".concat(this.currentState))
+        : (this.currentState = this.currentState.substr(1));
     },
     setOperator: function(operator) {
-      this.currentOperator = operator;
-      this.oldState = this.currentState;
-      this.clear();
-      console.log(this.currentState)
+      if (this.currentState) {
+        this.currentOperator = operator;
+        this.oldState = this.currentState;
+        this.clear();
+        console.log(this.currentState);
+      }
     },
-    equal: function(){
-      this.toNumber();
-      this.currentState = parseFloat(this.operators[this.currentOperator](this.oldState, this.currentState).toFixed(6));
+    equal: function() {
+      if (this.currentState && this.oldState) {
+        this.toNumber();
+        parseFloat(
+          this.operators[this.currentOperator](
+            this.oldState,
+            this.currentState
+          ).toFixed(6)
+        ).toString().length > 9
+          ? (this.currentState = "999999999")
+          : (this.currentState = parseFloat(
+              this.operators[this.currentOperator](
+                this.oldState,
+                this.currentState
+              ).toFixed(6)
+            ).toString());
+      }
     }
   },
-  computed: {},
+  computed: {
+    resultLength: function() {
+      return this.currentState.length;
+    }
+  },
   watch: {
-    currentState: function(){
-      this.currentState.length >= 7 ? document.querySelector('.screen').style.fontSize = '2.5em' : document.querySelector('.screen').style.fontSize = '3.5em'; // if many chars, change font-size
-      this.currentState.length > 9 ? this.currentState = this.currentState.substring(0,9) : this.currentState; // keeping length of 9 chars MAX
+    currentState: function() {
+      this.currentState.length >= 7
+        ? (document.querySelector(".screen").style.fontSize = "2.5em")
+        : (document.querySelector(".screen").style.fontSize = "3.5em"); // if many chars, change font-size
+      this.currentState.length > 9
+        ? (this.currentState = this.currentState.substring(0, 9))
+        : this.currentState; // keeping length of 9 chars MAX
     }
   }
 };

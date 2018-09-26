@@ -44,7 +44,9 @@ body {
 
 .iphoneBody {
   margin: 0 auto;
-  border: 3px solid	#c9ba93;
+  border: 3px solid #c9ba93;
+  border-left: 4px solid #c9ba93;
+  border-right: 4px solid #c9ba93;
   border-radius: 75px;
   width: 450px;
   height: 930px;
@@ -59,8 +61,8 @@ body {
   position: relative;
 }
 
-.speaker::after{
-  content: '';
+.speaker::after {
+  content: "";
   width: 20px;
   height: 20px;
   background: black;
@@ -69,8 +71,8 @@ body {
   top: -5px;
   border-radius: 50%;
 }
-.speaker::before{
-  content: '';
+.speaker::before {
+  content: "";
   width: 12px;
   height: 12px;
   background: black;

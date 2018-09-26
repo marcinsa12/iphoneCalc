@@ -1,6 +1,6 @@
 <template>
   <div class="calcButton">
-    {{ button }}
+    {{ button }} 
   </div>
 </template>
 
