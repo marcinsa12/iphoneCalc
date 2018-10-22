@@ -1,6 +1,6 @@
 # calculator
 
-> basic calc in vue.js - that was to experience a bit with npm and vue-cli tool
+> basic calc in vue.js - that was to play a bit with npm and vue-cli tool
 
 ## Build Setup
 
